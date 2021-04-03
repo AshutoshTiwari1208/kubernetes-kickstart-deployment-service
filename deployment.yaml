@@ -2,13 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-second-deployment
+  labels:
+    lab: myapp
 spec:
-  replicas: 1
+  replicas: 3                                                         
   selector:
     matchLabels:
-      app: second-app
+      app: second-app                                       
       tier: backend
-  template:
+  template:                                                       
     metadata:
       labels:
         app: second-app
@@ -17,4 +19,12 @@ spec:
       containers:
         - name: second-name
           image: ashutosh3309/testnodejs:v1
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            periodSeconds: 10
+            initialDelaySeconds: 5
+            
 
